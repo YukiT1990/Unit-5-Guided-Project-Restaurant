@@ -94,12 +94,27 @@ class MenuController {
         task.resume()
     }
     
+    /**
+     None  of the images exists on the server.
+     print("nil, \(url)") returns
+        nil, http://localhost:8080/images/1.png
+        nil, http://localhost:8080/images/2.png
+        nil, http://localhost:8080/images/3.png
+        nil, http://localhost:8080/images/4.png
+        nil, http://localhost:8080/images/5.png
+        nil, http://localhost:8080/images/6.png
+     
+            When I accessed http://localhost:8080/images/1.png,
+            It returned {"error":true,"reason":"The menu item with ID 1.png does not exist."}
+     */
     func fetchImage(url: URL, completion: @escaping (UIImage?) -> Void) {
         let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
             if let data = data,
                let image = UIImage(data: data) {
+                print("image, \(url)")
                 completion(image)
             } else {
+                print("nil, \(url)")
                 completion(nil)
             }
         }
